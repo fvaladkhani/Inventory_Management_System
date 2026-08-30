@@ -108,5 +108,10 @@ Try it out: [https://ism.adgserver.ir](https://ism.adgserver.ir)
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/inventory-management-system.git
-cd inventory-management-system
+git clone https://github.com/fvaladkhani/Inventory_Management_System.git
+cd Inventory_Management_System
+```
+
+### 2. Follow the Installation Guide
+
+For complete setup instructions — backend configuration, database migration, frontend build, and production deployment — see **[INSTALL.md](./INSTALL.md)**.

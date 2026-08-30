@@ -101,8 +101,13 @@ Try it out: [https://ism.adgserver.ir](https://ism.adgserver.ir)
 
 ## 🚀 نصب و راه‌اندازی
 
-### ۱. کلون کردن پروژه
+### ۱. کلون کردن مخزن
 
 ```bash
-git clone https://github.com/your-username/inventory-management-system.git
-cd inventory-management-system
+git clone https://github.com/fvaladkhani/Inventory_Management_System.git
+cd Inventory_Management_System
+```
+
+### ۲. مطالعه‌ی راهنمای نصب
+
+برای مراحل کامل نصب — تنظیمات بک‌اند، migration دیتابیس، build فرانت‌اند، و استقرار در محیط production — به فایل **[INSTALL.md](./INSTALL.md)** مراجعه کنید.
