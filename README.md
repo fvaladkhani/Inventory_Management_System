@@ -2,6 +2,18 @@
 
 A complete bilingual (Persian/English) inventory and order management system built with **Laravel** and **React**.
 
+
+----
+
+
+## 🌐 Live Demo
+
+Try it out: [https://ism.adgserver.ir](https://ism.adgserver.ir)
+
+**Demo credentials:**
+- Username: `admin`
+- Password: `admin`
+
 > Developed by **Farzad** — Full-Stack Developer
 
 ---

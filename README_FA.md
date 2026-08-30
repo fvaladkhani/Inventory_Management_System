@@ -4,6 +4,16 @@
 
 ---
 
+## 🌐 Live Demo
+
+Try it out: [https://ism.adgserver.ir](https://ism.adgserver.ir)
+
+**Demo credentials:**
+- Username: `admin`
+- Password: `admin`
+
+---
+
 ## ✨ امکانات اصلی
 
 ### مدیریت محصولات
