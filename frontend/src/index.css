@@ -1,0 +1,399 @@
+/* ============================================
+   اضافه کردن فونت وزیر (فارسی)
+   ============================================ */
+
+@font-face {
+  font-family: 'Vazir';
+  src: url('../public/fonts/Vazirmatn-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Vazir';
+  src: url('../public/fonts/Vazirmatn-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* ============================================
+   استایل‌های اصلی
+   ============================================ */
+
+body {
+  margin: 0;
+  font-family: 'Vazir', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa;
+}
+
+/* برای زبان انگلیسی از فونت پیش‌فرض استفاده شود */
+[lang="en"] body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.sidebar {
+  min-height: 100vh;
+  background-color: #343a40;
+}
+
+.sidebar .nav-link {
+  color: #adb5bd;
+  padding: 0.75rem 1rem;
+  font-family: 'Vazir', sans-serif;
+}
+
+.sidebar .nav-link:hover {
+  color: #fff;
+  background-color: #495057;
+}
+
+.sidebar .nav-link.active {
+  color: #fff;
+  background-color: #007bff;
+}
+
+.main-content {
+  min-height: 100vh;
+}
+
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.table th {
+  border-top: none;
+  font-weight: 600;
+  color: #495057;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.badge {
+  font-size: 0.75em;
+}
+
+.low-stock {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.error-message {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.success-message {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+/* ============================================
+   پشتیبانی کامل از RTL (راست‌چین)
+   ============================================ */
+
+/* تنظیمات پایه RTL */
+[dir="rtl"] {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] .sidebar .nav-link {
+  text-align: right;
+}
+
+/* اصلاح فاصله‌ها (Margin) */
+[dir="rtl"] .me-1 {
+  margin-right: 0 !important;
+  margin-left: 0.25rem !important;
+}
+[dir="rtl"] .me-2 {
+  margin-right: 0 !important;
+  margin-left: 0.5rem !important;
+}
+[dir="rtl"] .me-3 {
+  margin-right: 0 !important;
+  margin-left: 1rem !important;
+}
+[dir="rtl"] .me-4 {
+  margin-right: 0 !important;
+  margin-left: 1.5rem !important;
+}
+[dir="rtl"] .me-5 {
+  margin-right: 0 !important;
+  margin-left: 3rem !important;
+}
+[dir="rtl"] .me-auto {
+  margin-right: 0 !important;
+  margin-left: auto !important;
+}
+
+[dir="rtl"] .ms-1 {
+  margin-left: 0 !important;
+  margin-right: 0.25rem !important;
+}
+[dir="rtl"] .ms-2 {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}
+[dir="rtl"] .ms-3 {
+  margin-left: 0 !important;
+  margin-right: 1rem !important;
+}
+[dir="rtl"] .ms-4 {
+  margin-left: 0 !important;
+  margin-right: 1.5rem !important;
+}
+[dir="rtl"] .ms-5 {
+  margin-left: 0 !important;
+  margin-right: 3rem !important;
+}
+[dir="rtl"] .ms-auto {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+[dir="rtl"] .pe-1 {
+  padding-right: 0 !important;
+  padding-left: 0.25rem !important;
+}
+[dir="rtl"] .pe-2 {
+  padding-right: 0 !important;
+  padding-left: 0.5rem !important;
+}
+[dir="rtl"] .pe-3 {
+  padding-right: 0 !important;
+  padding-left: 1rem !important;
+}
+[dir="rtl"] .ps-1 {
+  padding-left: 0 !important;
+  padding-right: 0.25rem !important;
+}
+[dir="rtl"] .ps-2 {
+  padding-left: 0 !important;
+  padding-right: 0.5rem !important;
+}
+[dir="rtl"] .ps-3 {
+  padding-left: 0 !important;
+  padding-right: 1rem !important;
+}
+
+/* اصلاح float */
+[dir="rtl"] .float-end {
+  float: left !important;
+}
+[dir="rtl"] .float-start {
+  float: right !important;
+}
+
+/* اصلاح text-align */
+[dir="rtl"] .text-end {
+  text-align: left !important;
+}
+[dir="rtl"] .text-start {
+  text-align: right !important;
+}
+
+/* اصلاح dropdown */
+[dir="rtl"] .dropdown-menu {
+  text-align: right;
+}
+[dir="rtl"] .dropdown-menu-end {
+  right: auto !important;
+  left: 0 !important;
+}
+[dir="rtl"] .dropdown-menu-start {
+  right: 0 !important;
+  left: auto !important;
+}
+
+/* اصلاح modal */
+[dir="rtl"] .modal-header .btn-close {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
+/* اصلاح فرم‌ها */
+[dir="rtl"] .form-check {
+  padding-left: 0 !important;
+  padding-right: 1.5rem !important;
+}
+[dir="rtl"] .form-check .form-check-input {
+  float: right !important;
+  margin-left: 0 !important;
+  margin-right: -1.5rem !important;
+}
+[dir="rtl"] .form-check-label {
+  padding-right: 1.5rem !important;
+  padding-left: 0 !important;
+}
+
+[dir="rtl"] .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+  border-radius: 0 0.375rem 0.375rem 0 !important;
+}
+[dir="rtl"] .input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3) {
+  border-radius: 0 0.375rem 0.375rem 0 !important;
+}
+[dir="rtl"] .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+  border-radius: 0.375rem 0 0 0.375rem !important;
+}
+[dir="rtl"] .input-group > .form-control:not(:first-child) {
+  border-radius: 0.375rem 0 0 0.375rem !important;
+}
+
+/* اصلاح table */
+[dir="rtl"] .table {
+  text-align: right;
+}
+
+/* اصلاح nav */
+[dir="rtl"] .navbar-nav {
+  padding-right: 0 !important;
+}
+
+/* اصلاح breadcrumb */
+[dir="rtl"] .breadcrumb-item + .breadcrumb-item {
+  padding-left: 0 !important;
+  padding-right: 0.5rem !important;
+}
+[dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
+  float: right !important;
+  padding-right: 0 !important;
+  padding-left: 0.5rem !important;
+}
+
+/* اصلاح pagination */
+[dir="rtl"] .pagination {
+  padding-right: 0 !important;
+}
+[dir="rtl"] .page-item:first-child .page-link {
+  border-radius: 0 0.375rem 0.375rem 0 !important;
+}
+[dir="rtl"] .page-item:last-child .page-link {
+  border-radius: 0.375rem 0 0 0.375rem !important;
+}
+
+/* اصلاح list group */
+[dir="rtl"] .list-group {
+  padding-right: 0 !important;
+}
+
+/* اصلاح toast */
+[dir="rtl"] .toast {
+  text-align: right;
+}
+[dir="rtl"] .toast-header .btn-close {
+  margin-right: auto !important;
+  margin-left: -0.375rem !important;
+}
+
+/* اصلاح spinner */
+[dir="rtl"] .spinner-border,
+[dir="rtl"] .spinner-grow {
+  --bs-spinner-animation-name: spinner-border !important;
+}
+
+/* اصلاح offcanvas */
+[dir="rtl"] .offcanvas-start {
+  transform: translateX(100%) !important;
+}
+[dir="rtl"] .offcanvas-end {
+  transform: translateX(-100%) !important;
+}
+[dir="rtl"] .offcanvas-start.show {
+  transform: translateX(0) !important;
+}
+[dir="rtl"] .offcanvas-end.show {
+  transform: translateX(0) !important;
+}
+
+/* اصلاح carousel */
+[dir="rtl"] .carousel-control-prev {
+  left: auto !important;
+  right: 0 !important;
+}
+[dir="rtl"] .carousel-control-next {
+  right: auto !important;
+  left: 0 !important;
+}
+[dir="rtl"] .carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+}
+[dir="rtl"] .carousel-control-next-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e") !important;
+}
+
+/* اصلاح tooltip */
+[dir="rtl"] .tooltip {
+  text-align: right;
+}
+
+/* اصلاح popover */
+[dir="rtl"] .popover {
+  text-align: right;
+}
+[dir="rtl"] .popover-header {
+  text-align: right;
+}
+
+/* اصلاح accordion */
+[dir="rtl"] .accordion-button::after {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+[dir="rtl"] .accordion-button {
+  text-align: right;
+}
+
+/* اصلاح modal footer */
+[dir="rtl"] .modal-footer > :not(:first-child) {
+  margin-left: 0 !important;
+  margin-right: 0.25rem !important;
+}
+[dir="rtl"] .modal-footer > :not(:last-child) {
+  margin-right: 0 !important;
+  margin-left: 0.25rem !important;
+}
+
+/* اصلاح button group */
+[dir="rtl"] .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+  border-radius: 0 0.375rem 0.375rem 0 !important;
+}
+[dir="rtl"] .btn-group > .btn:not(:first-child) {
+  border-radius: 0.375rem 0 0 0.375rem !important;
+}
+
+/* اصلاح alert */
+[dir="rtl"] .alert-dismissible .btn-close {
+  right: auto !important;
+  left: 0 !important;
+}
