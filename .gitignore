@@ -1,24 +1,32 @@
 # Dependencies
-/node_modules/
+/backend/vendor/
 /frontend/node_modules/
-/vendor/
 
 # Environment files
-.env
-.env.backup
+/backend/.env
+/backend/.env.backup
+
+# Database
+/backend/database/*.sqlite
 
 # Cache and logs
-/storage/*.key
-/storage/logs/*.log
-/storage/framework/cache/*
-/storage/framework/sessions/*
-/storage/framework/views/*
-bootstrap/cache/*.php
+/backend/storage/*.key
+/backend/storage/logs/*.log
+/backend/storage/framework/cache/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/views/*
+/backend/bootstrap/cache/*.php
 
-# Build files
-/public/build/
-/public/hot
-public/storage
+# Frontend build output (regenerate via `npm run build`, see INSTALL.md)
+/frontend/build/
+
+# Backend public folder — built frontend assets copied in during deploy
+# (keep .htaccess and index.php, which are source-controlled)
+/backend/public/static/
+/backend/public/index.html
+/backend/public/asset-manifest.json
+/backend/public/locales/
+/backend/public/fonts/
 
 # OS files
 .DS_Store
