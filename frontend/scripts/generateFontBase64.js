@@ -15,7 +15,7 @@ function fontToBase64(filename) {
 }
 
 function main() {
-  console.log('Reading fonts...');
+
 
   const regularBase64 = fontToBase64('Vazirmatn-Regular.ttf');
   const boldBase64 = fontToBase64('Vazirmatn-Bold.ttf');
@@ -31,9 +31,7 @@ function main() {
   }
 
   fs.writeFileSync(OUTPUT_FILE, fileContent, 'utf8');
-  console.log('File created: ' + OUTPUT_FILE);
-  console.log('Regular size: ' + (regularBase64.length / 1024).toFixed(1) + ' KB');
-  console.log('Bold size: ' + (boldBase64.length / 1024).toFixed(1) + ' KB');
+
 }
 
 main();
