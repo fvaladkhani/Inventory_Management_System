@@ -4,7 +4,7 @@ import {
   Row, Col, Card, Table, Button, Form, Modal, Badge,
   Alert, Spinner
 } from 'react-bootstrap';
-import { productOffersAPI, productsAPI } from '../services/api';
+import { productOffersAPI, productsAPI, getCollection } from '../services/api';
 
 const Offers = () => {
   const { t } = useTranslation();
@@ -31,11 +31,11 @@ const Offers = () => {
 
       // دریافت محصولات
       const productsRes = await productsAPI.getAll({ per_page: 100 });
-      setProducts(productsRes.data.data || []);
+      setProducts(getCollection(productsRes));
 
       // دریافت تخفیف‌ها از API
       const offersRes = await productOffersAPI.getAll();
-      setOffers(offersRes.data.data || []);
+      setOffers(getCollection(offersRes));
     } catch (error) {
       console.error('Error fetching data:', error);
       setError(t('error_loading_data'));

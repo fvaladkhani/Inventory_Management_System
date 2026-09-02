@@ -143,7 +143,7 @@ class InboundOrderController extends Controller
                     'transaction_value' => $item->total_price,
                     'transaction_date' => now()->toDateString(),
                     'remarks' => 'Inbound order received',
-                    'inbound_order_id' => $inbound_order_id,
+                    'inbound_order_id' => $inboundOrder->inbound_order_id,
                 ]);
 
                 // Update received date

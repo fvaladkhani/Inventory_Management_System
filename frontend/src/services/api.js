@@ -10,6 +10,31 @@ const api = axios.create({
   withCredentials: true,
 });
 
+// All list endpoints use Laravel pagination, while older lookup endpoints may
+// return a plain array. Keep consumers independent from that implementation detail.
+export const getCollection = (response) => {
+  const payload = response?.data;
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data)) return payload.data;
+  return [];
+};
+
+export const formatDecimal = (value, digits = 2) => {
+  const number = Number(value);
+  return Number.isFinite(number) ? number.toFixed(digits) : (0).toFixed(digits);
+};
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('user');
+      window.dispatchEvent(new Event('auth-expired'));
+    }
+    return Promise.reject(error);
+  }
+);
+
 // Auth API
 export const authAPI = {
   login: (credentials) => api.post('/login', credentials),
@@ -126,9 +151,9 @@ export const settingsAPI = {
 
 // Lookup APIs
 export const lookupAPI = {
-  getProductCategories: () => api.get('/product-categories'),
-  getOrderStatuses: () => api.get('/order-statuses'),
-  getTransactionTypes: () => api.get('/transaction-types'),
+  getProductCategories: () => api.get('/product-categories', { params: { per_page: 100 } }),
+  getOrderStatuses: () => api.get('/order-statuses', { params: { per_page: 100 } }),
+  getTransactionTypes: () => api.get('/transaction-types', { params: { per_page: 100 } }),
 };
 
 export default api;

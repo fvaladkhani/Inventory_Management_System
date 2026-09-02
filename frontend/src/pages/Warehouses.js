@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table, Button, Form, Modal, InputGroup } from 'react-bootstrap';
-import { warehousesAPI } from '../services/api';
+import { warehousesAPI, getCollection } from '../services/api';
 
 const Warehouses = () => {
   const [warehouses, setWarehouses] = useState([]);
@@ -21,9 +21,9 @@ const Warehouses = () => {
     try {
       const params = {};
       if (searchTerm) params.search = searchTerm;
-      
+
       const response = await warehousesAPI.getAll(params);
-      setWarehouses(response.data.data);
+      setWarehouses(getCollection(response));
     } catch (error) {
       console.error('Error fetching warehouses:', error);
     } finally {

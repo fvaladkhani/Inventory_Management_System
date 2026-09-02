@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Card, Table, Button, Form, Modal, Badge, InputGroup } from 'react-bootstrap';
-import { productsAPI, lookupAPI } from '../services/api';
+import { Row, Col, Card, Table, Button, Form, Modal, Badge, InputGroup, Alert } from 'react-bootstrap';
+import { productsAPI, lookupAPI, getCollection } from '../services/api';
 
 const Products = () => {
   const { t } = useTranslation();
@@ -41,7 +41,7 @@ const Products = () => {
       if (selectedCategory) params.category_id = selectedCategory;
 
       const response = await productsAPI.getAll(params);
-      setProducts(response.data.data || []);
+      setProducts(getCollection(response));
     } catch (error) {
       console.error('Error fetching products:', error);
       setError(t('error_loading_products'));
@@ -55,7 +55,7 @@ const Products = () => {
     try {
       const response = await lookupAPI.getProductCategories();
       // ✅ اطمینان از اینکه response.data یک آرایه است
-      setCategories(Array.isArray(response.data) ? response.data : []);
+      setCategories(getCollection(response));
     } catch (error) {
       console.error('Error fetching categories:', error);
       setCategories([]);
@@ -175,6 +175,8 @@ const Products = () => {
 
   return (
     <div>
+      {error && <Alert variant="danger" onClose={() => setError('')} dismissible>{error}</Alert>}
+      {success && <Alert variant="success" onClose={() => setSuccess('')} dismissible>{success}</Alert>}
       <Row className="mb-4">
         <Col>
           <h1>{t('products')}</h1>

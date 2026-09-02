@@ -9,7 +9,8 @@ import {
   productsAPI,
   inventoryAPI,
   inboundOrdersAPI,
-  outboundOrdersAPI
+  outboundOrdersAPI,
+  getCollection
 } from '../services/api';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -141,12 +142,12 @@ const Reports = () => {
       setSalesTrends(salesTrendsRes.data || []);
 
       // محاسبه خلاصه
-      const inboundOrders = inboundRes.data.data || [];
-      const outboundOrders = outboundRes.data.data || [];
-      const products = productsRes.data.data || [];
+      const inboundOrders = getCollection(inboundRes);
+      const outboundOrders = getCollection(outboundRes);
+      const products = getCollection(productsRes);
 
-      const totalPurchases = inboundOrders.reduce((sum, o) => sum + (o.order_total || 0), 0);
-      const totalSales = outboundOrders.reduce((sum, o) => sum + (o.order_total || 0), 0);
+      const totalPurchases = inboundOrders.reduce((sum, o) => sum + (Number(o.order_total) || 0), 0);
+      const totalSales = outboundOrders.reduce((sum, o) => sum + (Number(o.order_total) || 0), 0);
 
       // محاسبه ارزش کل موجودی و کمبود موجودی
       let totalInventoryValue = 0;
@@ -155,7 +156,7 @@ const Reports = () => {
       inventory.forEach(item => {
         const product = products.find(p => p.product_id === item.product_id);
         if (product) {
-          const itemValue = (item.total_quantity || 0) * (product.base_price || 0);
+          const itemValue = (Number(item.total_quantity) || 0) * (Number(product.base_price) || 0);
           totalInventoryValue += itemValue;
 
           if ((item.total_quantity || 0) <= (product.minimum_quantity || 0)) {

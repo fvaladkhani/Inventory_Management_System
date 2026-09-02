@@ -4,7 +4,7 @@ import {
   Row, Col, Card, Table, Button, Form, Modal, Badge,
   Alert, Spinner
 } from 'react-bootstrap';
-import { productBundlesAPI, productsAPI } from '../services/api';
+import { productBundlesAPI, productsAPI, getCollection, formatDecimal } from '../services/api';
 
 const Bundles = () => {
   const { t } = useTranslation();
@@ -40,11 +40,11 @@ const Bundles = () => {
 
       // دریافت محصولات
       const productsRes = await productsAPI.getAll({ per_page: 100 });
-      setProducts(productsRes.data.data || []);
+      setProducts(getCollection(productsRes));
 
       // دریافت بسته‌ها از API
       const bundlesRes = await productBundlesAPI.getAll();
-      setBundles(bundlesRes.data.data || []);
+      setBundles(getCollection(bundlesRes));
     } catch (error) {
       console.error('Error fetching data:', error);
       setError(t('error_loading_data'));
@@ -74,7 +74,7 @@ const Bundles = () => {
     formData.items.forEach(item => {
       const product = products.find(p => p.product_id === parseInt(item.product_id));
       if (product) {
-        totalPrice += product.base_price * item.quantity;
+        totalPrice += (Number(product.base_price) || 0) * (Number(item.quantity) || 0);
       }
     });
 
@@ -111,7 +111,7 @@ const Bundles = () => {
         sku: product.sku,
         base_price: product.base_price,
         quantity: parseInt(newItem.quantity),
-        total_price: product.base_price * parseInt(newItem.quantity),
+        total_price: (Number(product.base_price) || 0) * (parseInt(newItem.quantity, 10) || 0),
       }]
     }));
 
@@ -284,7 +284,7 @@ const Bundles = () => {
                     <td><strong>{bundle.bundle_name}</strong></td>
                     <td>{bundle.sku}</td>
                     <td>{bundle.items?.length || 0}</td>
-                    <td>${bundle.bundle_price?.toFixed(2)}</td>
+                    <td>${formatDecimal(bundle.bundle_price)}</td>
                     <td>
                       <Badge bg={bundle.items?.length > 0 ? 'success' : 'warning'}>
                         {bundle.items?.length > 0 ? t('active') : t('empty')}
@@ -460,8 +460,8 @@ const Bundles = () => {
                       <td>{item.product_name}</td>
                       <td>{item.sku}</td>
                       <td>{item.quantity}</td>
-                      <td>${item.base_price?.toFixed(2)}</td>
-                      <td>${item.total_price?.toFixed(2)}</td>
+                      <td>${formatDecimal(item.base_price)}</td>
+                      <td>${formatDecimal(item.total_price)}</td>
                       <td>
                         <Button
                           variant="danger"
@@ -479,7 +479,7 @@ const Bundles = () => {
                 <tr>
                   <td colSpan="3"></td>
                   <td><strong>{t('bundle_price')}</strong></td>
-                  <td><strong>${formData.bundle_price?.toFixed(2)}</strong></td>
+                  <td><strong>${formatDecimal(formData.bundle_price)}</strong></td>
                   <td></td>
                 </tr>
               </tfoot>

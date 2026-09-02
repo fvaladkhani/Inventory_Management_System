@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with(['category', 'variants', 'offers']);
+        $query = Product::with(['category', 'variants', 'offers', 'inventory.warehouse']);
 
         if ($request->has('search')) {
             $search = $request->search;

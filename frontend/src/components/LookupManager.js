@@ -4,6 +4,7 @@ import {
   Row, Col, Card, Table, Button, Form, Modal,
   Alert, Spinner
 } from 'react-bootstrap';
+import { getCollection } from '../services/api';
 
 const LookupManager = ({ title, api, fields, primaryKey, listFields }) => {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ const LookupManager = ({ title, api, fields, primaryKey, listFields }) => {
     try {
       setLoading(true);
       const response = await api.getAll();
-      setItems(response.data || []);
+      setItems(getCollection(response));
     } catch (error) {
       console.error(`Error fetching ${title}:`, error);
       setError(t('error_loading_data'));

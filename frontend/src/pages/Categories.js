@@ -4,7 +4,7 @@ import {
   Row, Col, Card, Table, Button, Form, Modal,
   InputGroup, Alert, Spinner
 } from 'react-bootstrap';
-import { productCategoriesAPI } from '../services/api';
+import { productCategoriesAPI, getCollection } from '../services/api';
 
 const Categories = () => {
   const { t } = useTranslation();
@@ -31,7 +31,7 @@ const Categories = () => {
 
       const response = await productCategoriesAPI.getAll(params);
       // API به صورت paginate برمی‌گرداند، پس data.data را بررسی می‌کنیم
-      setCategories(response.data.data || response.data || []);
+      setCategories(getCollection(response));
     } catch (error) {
       console.error('Error fetching categories:', error);
       setError(t('error_loading_categories'));

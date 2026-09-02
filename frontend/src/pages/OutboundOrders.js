@@ -9,7 +9,9 @@ import {
   customersAPI,
   warehousesAPI,
   orderStatusesAPI,
-  productsAPI
+  productsAPI,
+  getCollection,
+  formatDecimal
 } from '../services/api';
 
 const OutboundOrders = () => {
@@ -69,7 +71,7 @@ const OutboundOrders = () => {
       Object.keys(params).forEach(key => !params[key] && delete params[key]);
 
       const response = await outboundOrdersAPI.getAll(params);
-      setOrders(response.data.data || []);
+      setOrders(getCollection(response));
     } catch (error) {
       console.error('Error fetching orders:', error);
       setError(t('error_loading_orders'));
@@ -87,10 +89,10 @@ const OutboundOrders = () => {
         orderStatusesAPI.getAll(),
         productsAPI.getAll({ per_page: 100 }),
       ]);
-      setCustomers(customersRes.data.data || []);
-      setWarehouses(warehousesRes.data.data || []);
-      setStatuses(statusesRes.data || []);
-      setProducts(productsRes.data.data || []);
+      setCustomers(getCollection(customersRes));
+      setWarehouses(getCollection(warehousesRes));
+      setStatuses(getCollection(statusesRes));
+      setProducts(getCollection(productsRes));
     } catch (error) {
       console.error('Error fetching dropdown data:', error);
     }
@@ -109,7 +111,7 @@ const OutboundOrders = () => {
   }, [formData.items, formData.freight_cost, formData.discount]);
 
   const calculateTotals = () => {
-    const itemTotal = formData.items.reduce((sum, item) => sum + (item.total_price || 0), 0);
+    const itemTotal = formData.items.reduce((sum, item) => sum + (Number(item.total_price) || 0), 0);
     const freight = parseFloat(formData.freight_cost) || 0;
     const discount = parseFloat(formData.discount) || 0;
     const orderTotal = itemTotal + freight - discount;
@@ -129,7 +131,7 @@ const OutboundOrders = () => {
     }
 
     const product = products.find(p => p.product_id === parseInt(newItem.product_id));
-    const totalPrice = newItem.quantity * newItem.unit_price;
+    const totalPrice = (Number(newItem.quantity) || 0) * (Number(newItem.unit_price) || 0);
 
     setFormData(prev => ({
       ...prev,
@@ -438,8 +440,8 @@ const OutboundOrders = () => {
                     <td>{new Date(order.order_date).toLocaleDateString()}</td>
                     <td>{order.customer?.customer_name}</td>
                     <td>{order.warehouse?.warehouse_name}</td>
-                    <td>${order.item_total?.toFixed(2)}</td>
-                    <td><strong>${order.order_total?.toFixed(2)}</strong></td>
+                    <td>${formatDecimal(order.item_total)}</td>
+                    <td><strong>${formatDecimal(order.order_total)}</strong></td>
                     <td>
                       <Badge bg={order.status_id === 7 ? 'success' : 'warning'}>
                         {order.status?.status_name}
@@ -605,7 +607,7 @@ const OutboundOrders = () => {
               <Col md={2}>
                 <Form.Control
                   type="text"
-                  value={`$${newItem.total_price.toFixed(2)}`}
+                      value={`$${formatDecimal(newItem.total_price)}`}
                   disabled
                 />
               </Col>
@@ -637,8 +639,8 @@ const OutboundOrders = () => {
                       <td>{item.product_name}</td>
                       <td>{item.sku}</td>
                       <td>{item.quantity}</td>
-                      <td>${item.unit_price?.toFixed(2)}</td>
-                      <td>${item.total_price?.toFixed(2)}</td>
+                      <td>${formatDecimal(item.unit_price)}</td>
+                      <td>${formatDecimal(item.total_price)}</td>
                       <td>
                         <Button
                           variant="danger"
@@ -656,7 +658,7 @@ const OutboundOrders = () => {
                 <tr>
                   <td colSpan="3"></td>
                   <td><strong>{t('item_total')}</strong></td>
-                  <td><strong>${formData.item_total.toFixed(2)}</strong></td>
+                  <td><strong>${formatDecimal(formData.item_total)}</strong></td>
                   <td></td>
                 </tr>
               </tfoot>
@@ -695,7 +697,7 @@ const OutboundOrders = () => {
                   <Form.Label><strong>{t('order_total')}</strong></Form.Label>
                   <Form.Control
                     type="text"
-                    value={`$${formData.order_total.toFixed(2)}`}
+                    value={`$${formatDecimal(formData.order_total)}`}
                     disabled
                     className="fw-bold"
                   />

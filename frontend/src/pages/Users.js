@@ -4,7 +4,7 @@ import {
   Row, Col, Card, Table, Button, Form, Modal,
   Alert, Spinner, Badge, InputGroup
 } from 'react-bootstrap';
-import { usersAPI } from '../services/api';
+import { usersAPI, getCollection } from '../services/api';
 
 const Users = () => {
   const { t } = useTranslation();
@@ -33,7 +33,7 @@ const Users = () => {
       if (searchTerm) params.search = searchTerm;
 
       const response = await usersAPI.getAll(params);
-      setUsers(response.data.data || []);
+      setUsers(getCollection(response));
     } catch (error) {
       console.error('Error fetching users:', error);
       setError(t('error_loading_users'));

@@ -31,6 +31,13 @@ function App() {
   const isLoggedIn = Boolean(user);
 
   useEffect(() => {
+    const handleAuthExpired = () => setUser(null);
+    window.addEventListener('auth-expired', handleAuthExpired);
+
+    return () => window.removeEventListener('auth-expired', handleAuthExpired);
+  }, []);
+
+  useEffect(() => {
     if (!user) {
       localStorage.removeItem('user');
       return;

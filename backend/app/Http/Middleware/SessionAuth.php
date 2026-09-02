@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SessionAuth
 {
@@ -24,6 +25,7 @@ class SessionAuth
         }
 
         $request->attributes->set('user', $user);
+        Auth::setUser($user);
 
         return $next($request);
     }

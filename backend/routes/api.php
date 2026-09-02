@@ -17,6 +17,8 @@ use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductBundleController;
 use App\Http\Controllers\ProductOfferController;
+use App\Http\Controllers\OrderStatusController;
+use App\Http\Controllers\TransactionTypeController;
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -56,27 +58,21 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('warehouses', WarehouseController::class);
 
     // Inbound Orders
-    Route::apiResource('inbound-orders', InboundOrderController::class);
+    Route::apiResource('inbound-orders', InboundOrderController::class)
+        ->parameters(['inbound-orders' => 'inboundOrder']);
     Route::post('/inbound-orders/{inboundOrder}/receive', [InboundOrderController::class, 'receive']);
 
     // Outbound Orders
-    Route::apiResource('outbound-orders', OutboundOrderController::class);
+    Route::apiResource('outbound-orders', OutboundOrderController::class)
+        ->parameters(['outbound-orders' => 'outboundOrder']);
     Route::post('/outbound-orders/{outboundOrder}/ship', [OutboundOrderController::class, 'ship']);
 
     // Product Categories
-    Route::get('/product-categories', function () {
-        return response()->json(\App\Models\ProductCategory::all());
-    });
-
-    // Order Statuses
-    Route::get('/order-statuses', function () {
-        return response()->json(\App\Models\OrderStatus::all());
-    });
-
-    // Transaction Types
-    Route::get('/transaction-types', function () {
-        return response()->json(\App\Models\TransactionType::all());
-    });
+    // Lookup resources also expose the full CRUD API used by the frontend.
+    Route::apiResource('order-statuses', OrderStatusController::class)
+        ->parameters(['order-statuses' => 'status']);
+    Route::apiResource('transaction-types', TransactionTypeController::class)
+        ->parameters(['transaction-types' => 'type']);
 
 
     // Settings
@@ -87,17 +83,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/settings/initialize', [SettingController::class, 'initialize']);
 
     // Product Categories (CRUD کامل)
-    Route::apiResource('product-categories', ProductCategoryController::class);
+    Route::apiResource('product-categories', ProductCategoryController::class)
+        ->parameters(['product-categories' => 'category']);
 
     // Product Variants (CRUD کامل)
-    Route::apiResource('product-variants', ProductVariantController::class);
+    Route::apiResource('product-variants', ProductVariantController::class)
+        ->parameters(['product-variants' => 'variant']);
 
     // Users (CRUD کامل)
     Route::apiResource('users', UserController::class);
 
     // Product Bundles (CRUD کامل)
-    Route::apiResource('product-bundles', ProductBundleController::class);
+    Route::apiResource('product-bundles', ProductBundleController::class)
+        ->parameters(['product-bundles' => 'bundle']);
 
     // Product Offers (CRUD کامل)
-    Route::apiResource('product-offers', ProductOfferController::class);
+    Route::apiResource('product-offers', ProductOfferController::class)
+        ->parameters(['product-offers' => 'offer']);
 });

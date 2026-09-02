@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table, Button, Form, Modal, InputGroup } from 'react-bootstrap';
-import { customersAPI } from '../services/api';
+import { customersAPI, getCollection } from '../services/api';
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
@@ -24,9 +24,9 @@ const Customers = () => {
     try {
       const params = {};
       if (searchTerm) params.search = searchTerm;
-      
+
       const response = await customersAPI.getAll(params);
-      setCustomers(response.data.data);
+      setCustomers(getCollection(response));
     } catch (error) {
       console.error('Error fetching customers:', error);
     } finally {

@@ -4,7 +4,7 @@ import {
   Row, Col, Card, Table, Button, Form, Modal,
   InputGroup, Alert, Spinner, Tabs, Tab
 } from 'react-bootstrap';
-import { vendorsAPI } from '../services/api';
+import { vendorsAPI, getCollection } from '../services/api';
 
 const Vendors = () => {
   const { t } = useTranslation();
@@ -43,7 +43,7 @@ const Vendors = () => {
       if (searchTerm) params.search = searchTerm;
 
       const response = await vendorsAPI.getAll(params);
-      setVendors(response.data.data || []);
+      setVendors(getCollection(response));
     } catch (error) {
       console.error('Error fetching vendors:', error);
       setError(t('error_loading_vendors'));

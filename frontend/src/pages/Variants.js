@@ -4,7 +4,7 @@ import {
   Row, Col, Card, Table, Button, Form, Modal,
   Alert, Spinner
 } from 'react-bootstrap';
-import { productsAPI, productVariantsAPI } from '../services/api';
+import { productsAPI, productVariantsAPI, getCollection, formatDecimal } from '../services/api';
 
 const Variants = () => {
   const { t } = useTranslation();
@@ -32,7 +32,8 @@ const Variants = () => {
 
       // دریافت محصولات
       const productsRes = await productsAPI.getAll({ per_page: 100 });
-      setProducts(productsRes.data.data || []);
+      const products = getCollection(productsRes);
+      setProducts(products);
 
       // دریافت واریانت‌ها
       const params = {};
@@ -40,11 +41,11 @@ const Variants = () => {
 
       const variantsRes = await productVariantsAPI.getAll(params);
       // API به صورت paginate برمی‌گرداند
-      const variantsData = variantsRes.data.data || variantsRes.data || [];
+      const variantsData = getCollection(variantsRes);
 
       // اضافه کردن نام محصول به هر واریانت
       const variantsWithProduct = variantsData.map(v => {
-        const product = productsRes.data.data.find(p => p.product_id === v.product_id);
+        const product = products.find(p => p.product_id === v.product_id);
         return {
           ...v,
           product_name: product?.product_name || 'Unknown',
@@ -224,7 +225,7 @@ const Variants = () => {
                     <td>{variant.product_name}</td>
                     <td><strong>{variant.variant_name}</strong></td>
                     <td>{variant.variant_sku}</td>
-                    <td>${variant.additional_price?.toFixed(2)}</td>
+                    <td>${formatDecimal(variant.additional_price)}</td>
                     <td>
                       <Button
                         variant="outline-primary"

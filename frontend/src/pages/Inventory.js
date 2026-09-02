@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table, Button, Form, Modal, Badge, InputGroup, Tab, Tabs } from 'react-bootstrap';
-import { inventoryAPI, warehousesAPI, productsAPI } from '../services/api';
+import { inventoryAPI, warehousesAPI, productsAPI, getCollection } from '../services/api';
 
 const Inventory = () => {
   const [inventory, setInventory] = useState([]);
@@ -29,14 +29,14 @@ const Inventory = () => {
     try {
       const params = {};
       if (selectedWarehouse) params.warehouse_id = selectedWarehouse;
-      
+
       const [inventoryRes, movementsRes] = await Promise.all([
         inventoryAPI.getAll(params),
         inventoryAPI.getMovements(params),
       ]);
-      
-      setInventory(inventoryRes.data.data);
-      setMovements(movementsRes.data.data);
+
+      setInventory(getCollection(inventoryRes));
+      setMovements(getCollection(movementsRes));
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -47,7 +47,7 @@ const Inventory = () => {
   const fetchWarehouses = async () => {
     try {
       const response = await warehousesAPI.getAll();
-      setWarehouses(response.data.data);
+      setWarehouses(getCollection(response));
     } catch (error) {
       console.error('Error fetching warehouses:', error);
     }
@@ -56,7 +56,7 @@ const Inventory = () => {
   const fetchProducts = async () => {
     try {
       const response = await productsAPI.getAll();
-      setProducts(response.data.data);
+      setProducts(getCollection(response));
     } catch (error) {
       console.error('Error fetching products:', error);
     }

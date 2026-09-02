@@ -11,7 +11,7 @@ class InventoryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Inventory::query();
+        $query = Inventory::with(['product', 'variant', 'warehouse']);
 
         if ($request->has('warehouse_id')) {
             $query->where('warehouse_id', $request->warehouse_id);
@@ -83,7 +83,7 @@ class InventoryController extends Controller
     public function summary()
     {
         $summary = DB::select("
-            SELECT 
+            SELECT
                 w.warehouse_name,
                 COUNT(i.inventory_id) as total_products,
                 SUM(i.quantity) as total_quantity,
@@ -100,7 +100,7 @@ class InventoryController extends Controller
 
     public function movements(Request $request)
     {
-        $query = InventoryTransaction::query();
+        $query = InventoryTransaction::with(['product', 'variant', 'warehouse', 'user', 'transactionType']);
 
         if ($request->has('warehouse_id')) {
             $query->where('warehouse_id', $request->warehouse_id);
