@@ -29,7 +29,7 @@ const Products = () => {
     weight: '',
     brand: '',
     unit_type: '',
-    minimum_quantity: '',
+    minimum_quantity: '0',
   });
 
   // دریافت محصولات
@@ -77,14 +77,14 @@ const Products = () => {
         sku: product.sku,
         barcode: product.barcode || '',
         description: product.description || '',
-        cost_price: product.cost_price,
-        price_gain: product.price_gain,
-        base_price: product.base_price,
+        cost_price: product.cost_price ?? '',
+        price_gain: product.price_gain ?? '',
+        base_price: product.base_price ?? '',
         dimension: product.dimension || '',
         weight: product.weight || '',
         brand: product.brand || '',
         unit_type: product.unit_type || '',
-        minimum_quantity: product.minimum_quantity,
+        minimum_quantity: product.minimum_quantity ?? '0',
       });
     } else {
       setEditingProduct(null);
@@ -101,7 +101,7 @@ const Products = () => {
         weight: '',
         brand: '',
         unit_type: '',
-        minimum_quantity: '',
+        minimum_quantity: '0',
       });
     }
     setShowModal(true);
@@ -144,7 +144,8 @@ const Products = () => {
       }, 1500);
     } catch (error) {
       console.error('Error saving product:', error);
-      setError(error.response?.data?.message || t('error_saving_product'));
+      const validationMessage = Object.values(error.response?.data?.errors || {})[0]?.[0];
+      setError(validationMessage || error.response?.data?.message || t('error_saving_product'));
     } finally {
       setSubmitting(false);
     }
@@ -314,7 +315,149 @@ const Products = () => {
                 </Form.Group>
               </Col>
             </Row>
-            {/* ... بقیه فرم ... */}
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>{t('sku')} *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="sku"
+                    value={formData.sku}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>{t('barcode')}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="barcode"
+                    value={formData.barcode}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>{t('cost_price')} *</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="cost_price"
+                    value={formData.cost_price}
+                    onChange={handleChange}
+                    min="0"
+                    step="0.01"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>{t('price_gain')} *</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="price_gain"
+                    value={formData.price_gain}
+                    onChange={handleChange}
+                    min="0"
+                    step="0.01"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>{t('base_price')} *</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="base_price"
+                    value={formData.base_price}
+                    onChange={handleChange}
+                    min="0"
+                    step="0.01"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>{t('min_quantity')} *</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="minimum_quantity"
+                    value={formData.minimum_quantity}
+                    onChange={handleChange}
+                    min="0"
+                    step="1"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>{t('brand')}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="brand"
+                    value={formData.brand}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>{t('dimension')}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="dimension"
+                    value={formData.dimension}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>{t('weight')}</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="weight"
+                    value={formData.weight}
+                    onChange={handleChange}
+                    min="0"
+                    step="0.01"
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>{t('unit_type')}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="unit_type"
+                    value={formData.unit_type}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Form.Group className="mb-3">
+              <Form.Label>{t('description')}</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+              />
+            </Form.Group>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseModal}>
