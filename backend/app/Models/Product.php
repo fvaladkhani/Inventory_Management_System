@@ -65,8 +65,16 @@ class Product extends Model
         return $this->hasMany(InventoryTransaction::class, 'product_id');
     }
 
-    public function getTotalInventoryAttribute()
+    public function getTotalInventoryAttribute($value = null)
     {
+        if ($value !== null) {
+            return (int) $value;
+        }
+
+        if ($this->relationLoaded('inventory')) {
+            return $this->inventory->sum('quantity');
+        }
+
         return $this->inventory()->sum('quantity');
     }
 

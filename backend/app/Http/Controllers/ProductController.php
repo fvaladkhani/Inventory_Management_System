@@ -10,7 +10,8 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with(['category', 'variants', 'offers', 'inventory.warehouse']);
+        $query = Product::with(['category', 'variants', 'offers', 'inventory.warehouse'])
+            ->withSum('inventory as total_inventory', 'quantity');
 
         if ($request->has('search')) {
             $search = $request->search;

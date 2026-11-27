@@ -24,11 +24,16 @@ const Login = ({ setUser }) => {
 
     try {
       const response = await authAPI.login(formData);
-      const { user } = response.data;
+      const user = response.data?.user;
+
+      if (!user || typeof user !== 'object') {
+        throw new Error('The login API returned an invalid response. Check the server API routes.');
+      }
+
       localStorage.setItem('user', JSON.stringify(user));
       setUser(user);
     } catch (error) {
-      setError(error.response?.data?.message || 'Login failed');
+      setError(error.response?.data?.message || error.message || 'Login failed');
     } finally {
       setLoading(false);
     }
