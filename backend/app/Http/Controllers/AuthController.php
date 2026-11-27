@@ -25,7 +25,8 @@ class AuthController extends Controller
             ]);
         }
 
-        session(['user_id' => $user->id]);
+        $request->session()->regenerate();
+        $request->session()->put('user_id', $user->id);
 
         return response()->json([
             'user' => [
@@ -39,8 +40,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        session()->forget('user_id');
-        session()->flush();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return response()->json(['message' => 'Logged out successfully']);
     }

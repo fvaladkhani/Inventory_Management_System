@@ -60,6 +60,13 @@ Set permissions:
 chmod -R 775 storage bootstrap/cache
 ```
 
+The PHP/web-server user must be able to write to `backend/storage/framework/sessions`. After changing `.env`, rebuild the configuration cache from `backend`:
+
+```bash
+php artisan config:clear
+php artisan config:cache
+```
+
 ## 3. Web server document root
 
 Point your Apache/Nginx **document root to `backend/public`**, not the project root.
@@ -144,6 +151,6 @@ Visit `https://your-domain.com`, log in with `admin` / `admin`, and change the p
 - **`could not find driver` on migrate** → the `pdo_sqlite` PHP extension isn't installed (`apt install php{version}-sqlite3`).
 - **`/api/*` routes return a plain HTML 404** → `backend/public/.htaccess` is missing or `mod_rewrite` isn't enabled.
 - **CORS errors in the browser console** → verify that `CORS_ALLOWED_ORIGINS` in `backend/.env` exactly matches the frontend origin.
-- **The app returns to login after signing in** → verify `SESSION_DOMAIN` is unset for same-host deployments, `SESSION_SECURE_COOKIE=true` under HTTPS, and that `storage/framework/sessions` is writable by PHP.
+- **The app returns to login after signing in** → verify there is only one `SESSION_DOMAIN` entry in `.env`, use `SESSION_DOMAIN=null` for same-host deployments, set `SESSION_SECURE_COOKIE=true` under HTTPS, ensure `storage/framework/sessions` is writable by PHP, and clear/rebuild Laravel's config cache.
 - **Changes to PHP files don't seem to take effect** → restart Apache fully to clear stale opcode cache from `mod_fcgid` workers.
 ENDOFFILE
