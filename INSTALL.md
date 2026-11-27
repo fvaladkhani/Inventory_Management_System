@@ -37,8 +37,12 @@ APP_ENV=production
 APP_DEBUG=false
 APP_URL=https://your-domain.com
 SANCTUM_STATEFUL_DOMAINS=your-domain.com
-SESSION_DOMAIN=your-domain.com
+SESSION_SECURE_COOKIE=true
+SESSION_SAME_SITE=lax
+CORS_ALLOWED_ORIGINS=https://your-domain.com
 ```
+
+Leave `SESSION_DOMAIN` unset (or `null`) when the frontend and API use the same host. If they use different subdomains, set it to their shared parent domain (for example, `.your-domain.com`). For a frontend hosted on a different site, use `SESSION_SAME_SITE=none` together with `SESSION_SECURE_COOKIE=true`.
 
 Create the database file and run migrations:
 
@@ -74,11 +78,7 @@ Make sure `backend/public/.htaccess` exists (it ships with the repo). If missing
 
 ## 4. CORS and allowed origins
 
-This project uses a custom middleware at `backend/app/Http/Middleware/Cors.php` (not the standard `config/cors.php`). Update the `Access-Control-Allow-Origin` value in **both** places inside that file to match your production domain:
-
-```php
-->header('Access-Control-Allow-Origin', 'https://your-domain.com')
-```
+Set `CORS_ALLOWED_ORIGINS` in `backend/.env` to the frontend origin(s), comma-separated when needed. For example, use `https://your-domain.com` when the frontend and API share a host. Do not include a path or trailing slash.
 
 ## 5. Frontend setup (React)
 
@@ -143,6 +143,7 @@ Visit `https://your-domain.com`, log in with `admin` / `admin`, and change the p
 
 - **`could not find driver` on migrate** → the `pdo_sqlite` PHP extension isn't installed (`apt install php{version}-sqlite3`).
 - **`/api/*` routes return a plain HTML 404** → `backend/public/.htaccess` is missing or `mod_rewrite` isn't enabled.
-- **CORS errors in the browser console** → check `app/Http/Middleware/Cors.php`, not `config/cors.php`.
+- **CORS errors in the browser console** → verify that `CORS_ALLOWED_ORIGINS` in `backend/.env` exactly matches the frontend origin.
+- **The app returns to login after signing in** → verify `SESSION_DOMAIN` is unset for same-host deployments, `SESSION_SECURE_COOKIE=true` under HTTPS, and that `storage/framework/sessions` is writable by PHP.
 - **Changes to PHP files don't seem to take effect** → restart Apache fully to clear stale opcode cache from `mod_fcgid` workers.
 ENDOFFILE
